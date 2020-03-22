@@ -9,19 +9,24 @@ const {ipcMain, app, BrowserWindow} = electron
 ipcMain.on('sync', async (event, arg) => {
   console.log(arg)
   let url = arg.remote+'/download/sync:files.json'
-  let path = await downloadFile(url, 'tmp/files.json', gotFile, arg, event)
+  let path = 'tmp/files.json'
+  await downloadFile(url, path, () => {gotFile(path, arg, event)})
 })
 
 async function gotFile(path, arg, event) {
   let remote = await asJSON(path)
   console.log(remote)
-  let local = await asJSON(arg.directory+'/files.json')
+  let local
+  try {
+    local = await asJSON(arg.directory+'/files.json')
+  } catch(e) {
+    local = []
+  }
   console.log(local)
-  sync(remote, local, arg.remote, arg.directory)
   fs.writeFile(arg.directory+'/files.json', JSON.stringify(remote), (err) => {
     if(err) console.log(err)
   })
-  event.reply('done','done')
+  sync(remote, local, arg.remote, arg.directory, event)
 }
 
 function createWindow() {
