@@ -1,0 +1,22 @@
+{
+  "name": "syncdesktop",
+  "version": "1.0.0",
+  "description": "Desktop Client for sync",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "keywords": [
+    "sync",
+    "desktop"
+  ],
+  "author": "Severin Leonard Christian Nitsche",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "electron": "^8.1.1"
+  }
+}

@@ -1,0 +1,10 @@
+const { ipcRenderer } = require('electron')
+
+ipcRenderer.on('done', (event, arg) => {
+  document.querySelector('#status').innerHTML = arg
+})
+
+function sync() {
+  document.querySelector('#status').innerHTML = 'syncing..'
+  ipcRenderer.send('sync', {remote: remote.value, directory: directory.value})
+}
