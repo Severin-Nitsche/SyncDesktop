@@ -121,6 +121,10 @@ body[dark] a {
   color: cornflowerblue;
 }
 
+body[dark] #status {
+  color: white;
+}
+
 body[dark] {
   background: #222;
 }
