@@ -2,6 +2,7 @@ const electron = require('electron')
 const download = require('./lib/download.js')
 const sync = require('./lib/sync.js')
 const fs = require('fs')
+const preferences = require('./preferences/preferences.json')
 const { asJSON } = require('./lib/read.js')
 const { downloadFile } = download;
 const {ipcMain, app, BrowserWindow} = electron
@@ -11,6 +12,16 @@ ipcMain.on('sync', async (event, arg) => {
   let url = arg.remote+'/download/sync:files.json'
   let path = 'tmp/files.json'
   await downloadFile(url, path, () => {gotFile(path, arg, event)})
+})
+
+ipcMain.on('load', (event, arg) => {
+  event.reply('setup',preferences)
+})
+
+ipcMain.on('preferences', (event, arg) => {
+  fs.writeFile('preferences/preferences.json', JSON.stringify(arg), (err) => {
+    if(err) console.log(err)
+  })
 })
 
 async function gotFile(path, arg, event) {

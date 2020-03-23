@@ -1,5 +1,3 @@
-const { ipcRenderer } = require('electron')
-
 ipcRenderer.on('done', (event, arg) => {
   document.querySelector('#status').innerHTML = arg
 })
